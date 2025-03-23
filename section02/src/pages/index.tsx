@@ -2,9 +2,8 @@ import SearchableLayout from "@/components/searchable-layout";
 import style from "./index.module.css";
 import React, { ReactNode, useEffect } from "react";
 // app 을 제외한 다른 곳에 global css import 불가능
-import books from "@/mock/books.json";
 import BookItem from "@/components/book-item";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { InferGetServerSidePropsType } from "next";
 import fetchBooks from "@/lib/fetch-books";
 import fetchRandomBooks from "@/lib/fetch-random-books";
 // @ : src 경로 (tsconfig.json 에서 확인 가능)
