@@ -1,7 +1,9 @@
-.h1 {
-  color: red;
+.container {
+  display: flex;
+  flex-direction: column; /* 섹션 수직 정렬 */
+  gap: 20px;
 }
 
-.h2 {
-  color: blue;
+.container h3 {
+  margin-bottom: 0px;
 }
