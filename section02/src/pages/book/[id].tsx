@@ -1,4 +1,9 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import {
+  GetServerSidePropsContext,
+  GetStaticPropsContext,
+  InferGetServerSidePropsType,
+  InferGetStaticPropsType,
+} from "next";
 import style from "./[id].module.css";
 import FetchOneBook from "@/lib/fetch-one-book";
 
@@ -13,20 +18,31 @@ import FetchOneBook from "@/lib/fetch-one-book";
 // index 경로에 해당하는 경로는 캐치 올 세그먼트로 대응할 수 없음
 // ex) book/ 경로는 대응 불가
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
+export const getStaticPaths = () => {
+  // 현재 페이지에서 동적 경로로 렌더링될 수 있는 모든 경우의 수 렌더링
+  return {
+    paths: [
+      { params: { id: "1" } },
+      { params: { id: "2" } },
+      { params: { id: "3" } },
+      // params 는 반드시 string
+    ],
+    fallback: false,
+    // false : 설정한 경로 외 접근시 404
+  };
+};
+
+export const getStaticProps = async (context: GetStaticPropsContext) => {
   const id = context.params!.id;
   // undefined 이 아닐 거라는 단언 -> ! 추가
 
   const book = await FetchOneBook(Number(id));
-
   return { props: { book } };
 };
 
 export default function Page({
   book,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   if (!book) {
     return "문제가 발생했습니다! 다시 시도해 주세요.";
   }

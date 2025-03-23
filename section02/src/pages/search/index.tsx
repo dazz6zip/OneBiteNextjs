@@ -26,10 +26,6 @@ import { BookData } from "@/types";
 // };
 
 export default function Page() {
-  //   {
-  //   books,
-  // }: InferGetStaticPropsType<typeof getStaticProps>
-
   const [books, setBooks] = useState<BookData[]>([]);
 
   const router = useRouter();
