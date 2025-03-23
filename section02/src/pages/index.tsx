@@ -3,16 +3,27 @@ import style from "./index.module.css";
 import React, { ReactNode, useEffect } from "react";
 // app 을 제외한 다른 곳에 global css import 불가능
 import BookItem from "@/components/book-item";
-import { InferGetServerSidePropsType } from "next";
+import { InferGetServerSidePropsType, InferGetStaticPropsType } from "next";
 import fetchBooks from "@/lib/fetch-books";
 import fetchRandomBooks from "@/lib/fetch-random-books";
 // @ : src 경로 (tsconfig.json 에서 확인 가능)
 
-// SSR 방식으로 렌더링됨 (getServerSideProps 가 약속된 이름임)
-// 사전 렌더링이 되는 과정에서, 서버 측에서 딱 한 번만 실행됨
-// Page Component에 먼저 실행되어서 Component에 필요한 데이터를 불러오는 함수
-// 반환값은 반드시 props 라는 이름을 가진 하나의 객체
-export const getServerSideProps = async () => {
+/*
+Next.js 제공 함수
+Page Component에 먼저 실행되어서 Component에 필요한 데이터를 불러오는 함수
+반환값은 반드시 props 라는 이름을 가진 하나의 객체
+사전 렌더링이 되는 과정에서, 서버 측에서 딱 한 번만 실행됨
+
+getServerSideProps : SSR 방식으로 렌더링, 반환값 InferGetServerSidePropsType 설정
+getStaticProps : SSG 방식으로 렌더링, 반환값 InferGetStaticPropsType 설정
+
+따로 설정하지 않을 경우 SSG 가 default
+npm run dev 는 개발 모드라서 SSG 확인이 불가능하므로 npm run build 후 npm run start 해서 테스트
+*/
+
+export const getStaticProps = async () => {
+  console.log("인덱스 페이지");
+
   // const allBooks = await fetchBooks();
   // const recoBooks = await fetchRandomBooks();
   // -> 직렬 처리라서 비교적 느림. 동시 처리 필요
@@ -35,9 +46,7 @@ export const getServerSideProps = async () => {
 export default function Home({
   allBooks,
   recoBooks,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  // InferGetServerSidePropsType : getServerSideProps 반환값 자동 추론
-
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <div className={style.container}>
       <section>
