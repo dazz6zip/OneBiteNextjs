@@ -6,6 +6,7 @@ import {
 } from "next";
 import style from "./[id].module.css";
 import FetchOneBook from "@/lib/fetch-one-book";
+import { useRouter } from "next/router";
 
 // 동적 라우팅 ([id] 는 :id 같은 개념)
 // 캐치 올 세그먼트 ([...id] 는 id가 몇 개라도 대응)
@@ -27,8 +28,11 @@ export const getStaticPaths = () => {
       { params: { id: "3" } },
       // params 는 반드시 string
     ],
-    fallback: false,
-    // false : 설정한 경로 외 접근시 404
+    // 예외 처리
+    fallback: true,
+    // false      : 404
+    // true       : props가 없는 버전 페이지 즉시 반환, 이후 props 따로 처리하여 반환
+    // "blocking" : SSR 처럼 즉시 사전 렌더링하여 반환 (새로운 데이터가 계속 추가되어야 하는 경우에도 사용 가능), 로딩 길어질 수 있음
   };
 };
 
@@ -37,12 +41,25 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
   // undefined 이 아닐 거라는 단언 -> ! 추가
 
   const book = await FetchOneBook(Number(id));
+
+  if (!book) {
+    return {
+      notFound: true,
+      // 불러오지 못했을 경우 자동으로 404
+    };
+  }
   return { props: { book } };
 };
 
 export default function Page({
   book,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return "로딩 중입니다...";
+  }
+
   if (!book) {
     return "문제가 발생했습니다! 다시 시도해 주세요.";
   }
