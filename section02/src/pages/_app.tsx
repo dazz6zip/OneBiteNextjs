@@ -1,6 +1,9 @@
 import GlobalLayout from "@/components/global-layout";
+import SearchableLayout from "@/components/searchable-layout";
 import "@/styles/globals.css";
+import { NextPage } from "next";
 import type { AppProps } from "next/app";
+import { ReactNode } from "react";
 
 // 프리패칭 (pre-fetching)
 // 현재 페이지에서 이동 가능한 모든 경로의 JS를 미리 가져옴 (Link, button...)
@@ -14,10 +17,20 @@ import type { AppProps } from "next/app";
 // 프로그래메틱한 페이지 이동은 프리패칭이 이루어지지 않음
 // Link을 제외한 페이지 이동도 프리패칭에 포함하고 싶을 경우 useEffect로 prefetch 지정
 
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <GlobalLayout>
-      <Component {...pageProps}></Component>
-    </GlobalLayout>
-  );
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactNode) => ReactNode;
+};
+// & {} : 교집합
+// Component에 getLayout 타입이 정의되지 않았으므로 추가
+
+export default function App({
+  Component,
+  pageProps,
+}: AppProps & {
+  Component: NextPageWithLayout;
+}) {
+  const getLayout = Component.getLayout ?? ((page: ReactNode) => page);
+  // getLayout function이 없는 경우 현재 page 그대로 반환
+
+  return <GlobalLayout>{getLayout(<Component {...pageProps} />)}</GlobalLayout>;
 }

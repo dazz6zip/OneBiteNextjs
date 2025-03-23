@@ -1,4 +1,6 @@
+import SearchableLayout from "@/components/searchable-layout";
 import style from "./index.module.css";
+import { ReactNode } from "react";
 // app 을 제외한 다른 곳에 global css import 불가능
 
 export default function Home() {
@@ -9,3 +11,8 @@ export default function Home() {
     </>
   );
 }
+
+// 특정 페이지를 인자로 들어오면 SerachableLayout 으로 묶어서 return
+Home.getLayout = (page: ReactNode) => {
+  return <SearchableLayout>{page}</SearchableLayout>;
+};
