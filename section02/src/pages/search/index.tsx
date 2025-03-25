@@ -1,13 +1,6 @@
 import SearchableLayout from "@/components/searchable-layout";
 import { ReactNode, useEffect, useState } from "react";
-import books from "@/mock/books.json";
 import BookItem from "@/components/book-item";
-import {
-  GetServerSidePropsContext,
-  GetStaticPropsContext,
-  InferGetServerSidePropsType,
-  InferGetStaticPropsType,
-} from "next";
 import fetchBooks from "@/lib/fetch-books";
 import { useRouter } from "next/router";
 import { BookData } from "@/types";

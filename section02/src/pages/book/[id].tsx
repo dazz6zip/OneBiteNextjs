@@ -1,9 +1,4 @@
-import {
-  GetServerSidePropsContext,
-  GetStaticPropsContext,
-  InferGetServerSidePropsType,
-  InferGetStaticPropsType,
-} from "next";
+import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import style from "./[id].module.css";
 import FetchOneBook from "@/lib/fetch-one-book";
 import { useRouter } from "next/router";
@@ -70,7 +65,7 @@ export default function Page({
           ></meta>
         </Head>
         {/* meta 태그 (SEO) 는 fallback 상태일 때 적용이 안 됨 
-        로딩 화면에도 SEO 추가로 fallback 상태여도 기본적인 태그는 Return 가능하도록*/}
+        로딩 화면에도 SEO 추가로 fallback 상태여도 기본적인 태그는 Return 가능하도록 */}
         <div>로딩 중입니다...</div>
       </>
     );
@@ -79,8 +74,7 @@ export default function Page({
   if (!book) {
     return "문제가 발생했습니다! 다시 시도해 주세요.";
   }
-  const { id, title, subTitle, description, author, publisher, coverImgUrl } =
-    book;
+  const { title, subTitle, description, author, publisher, coverImgUrl } = book;
   return (
     <>
       <Head>
