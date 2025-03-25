@@ -38,10 +38,15 @@ export const getStaticProps = async () => {
       allBooks,
       recoBooks,
     },
-    revalidate: 3,
+    // revalidate: 3,
     // revalidate : 재검증하다
-    // ISR 방식으로 3초마다 재생성되도록 설정함
-    // ISR : 기본적으로는 SSG 지만, 주기적으로 재생성해 SSR 의 장점도 갖고 있음
+    // ISR 방식으로 3초마다 정적 페이지 다시 생성
+    // ISR : 증분 정적 재생성 / 기본적으로는 SSG 지만, 주기적으로 재생성해 SSR 의 장점도 갖고 있음
+    // ISR 적용이 어려운 페이지 -> 시간과 관계없이 사용자의 상호작용으로 업데이트되는 페이지
+
+    // 요청 기반으로 업데이트하는 ISR 방식 : On-Demand ISR
+    // 온디맨드 사용으로 거의 대부분의 페이지를 ISR 방식으로 설정 가능함
+    // api/revalidate.ts 참고
   };
 };
 
