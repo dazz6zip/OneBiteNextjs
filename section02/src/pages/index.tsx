@@ -1,12 +1,13 @@
 import SearchableLayout from "@/components/searchable-layout";
 import style from "./index.module.css";
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
 // app 을 제외한 다른 곳에 global css import 불가능
 import BookItem from "@/components/book-item";
-import { InferGetServerSidePropsType, InferGetStaticPropsType } from "next";
+import { InferGetStaticPropsType } from "next";
 import fetchBooks from "@/lib/fetch-books";
 import fetchRandomBooks from "@/lib/fetch-random-books";
 // @ : src 경로 (tsconfig.json 에서 확인 가능)
+import Head from "next/head";
 
 /*
 Next.js 제공 함수
@@ -57,20 +58,31 @@ export default function Home({
   recoBooks,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <div className={style.container}>
-      <section>
-        <h3>지금 추천하는 도서</h3>
-        {recoBooks.map((book) => (
-          <BookItem key={book.id} {...book} />
-        ))}
-      </section>
-      <section>
-        <h3>등록된 모든 도서</h3>{" "}
-        {allBooks.map((book) => (
-          <BookItem key={book.id} {...book} />
-        ))}
-      </section>
-    </div>
+    <>
+      <Head>
+        <title>한입북스</title>
+        <meta property="og:image" content="/thumbnail.png"></meta>
+        <meta property="og:title" content="한입북스"></meta>
+        <meta
+          property="og:description"
+          content="한입북스에 등록된 도서들을 만나 보세요!"
+        ></meta>
+      </Head>
+      <div className={style.container}>
+        <section>
+          <h3>지금 추천하는 도서</h3>
+          {recoBooks.map((book) => (
+            <BookItem key={book.id} {...book} />
+          ))}
+        </section>
+        <section>
+          <h3>등록된 모든 도서</h3>{" "}
+          {allBooks.map((book) => (
+            <BookItem key={book.id} {...book} />
+          ))}
+        </section>
+      </div>
+    </>
   );
 }
 
