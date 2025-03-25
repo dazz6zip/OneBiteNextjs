@@ -38,6 +38,10 @@ export const getStaticProps = async () => {
       allBooks,
       recoBooks,
     },
+    revalidate: 3,
+    // revalidate : 재검증하다
+    // ISR 방식으로 3초마다 재생성되도록 설정함
+    // ISR : 기본적으로는 SSG 지만, 주기적으로 재생성해 SSR 의 장점도 갖고 있음
   };
 };
 
