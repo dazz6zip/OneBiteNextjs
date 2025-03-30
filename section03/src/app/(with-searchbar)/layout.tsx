@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import Searchbar from "./searchbar";
+import Searchbar from "../components/searchbar";
 
 export default function Layout({
   // layout.tsx는 자동으로 children 이 props 로 전달됨

@@ -1,6 +1,6 @@
-import ClientComponent from "./client-component";
+import ClientComponent from "../components/client-component";
 import styles from "./page.module.css";
-import ServerComponent from "./server-component";
+import ServerComponent from "../components/server-component";
 
 export default function Home() {
   return (
@@ -50,3 +50,6 @@ export default function Home() {
   : RSC Payload 에는 서버 컴포넌트의 모든 데이터가 포함, 클라이언트 컴포넌트보다 먼저 실행
   : 이 과정에 있어서, 클라이언트 컴포넌트의 함수는 직렬화될 수 없기 때문에 불가능한 것!!
 */
+
+// 서버 component 는 rcs payload
+// 클라이언트는 Js bundle
