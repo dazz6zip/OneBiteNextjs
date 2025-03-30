@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
+  // 모든 페이지에 동일하게 적용되는 root layout
   children,
 }: Readonly<{
   children: React.ReactNode;
