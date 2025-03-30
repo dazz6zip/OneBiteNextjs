@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 
 // co-location : page, layout 같이 지정된 이름이 아닌 tsx 파일 생성 가능
