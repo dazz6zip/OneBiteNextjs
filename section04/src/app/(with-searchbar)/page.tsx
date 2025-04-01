@@ -4,6 +4,11 @@ import { BookData } from "@/types";
 
 // cache 옵션은 fetch 만 가능 (axios 안 됨)
 
+// 리퀘스트 메모이제이션 : 같은 api 로드에만 사용하기 위함
+//  ㄴ 서버 컴포넌트 도입으로 각각 페이지가 fetch 하는 방식으로 변함 (원래는 최상단에서 fetch, 이후 전달)
+//  ㄴ 서로 다른 컴포넌트에서 같은 데이터를 필요로 하는 경우 사용!!
+// 리퀘스트 메모이제이션과 데이터 캐시는 전혀 다른 것
+
 async function AllBooks() {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
