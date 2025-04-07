@@ -12,7 +12,7 @@ import { BookData } from "@/types";
 async function AllBooks() {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
-    { cache: "no-store" }
+    { cache: "force-cache" }
     /*
     1. "cache: no-store" : 캐싱 안 함, 접속할 때마다 새로 불러옴
     2. "cache: force-cache" : 요청 결과 무조건 캐싱 

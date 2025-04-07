@@ -6,7 +6,8 @@ import { BookData } from "@/types";
 async function Footer() {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
-    { cache: "no-store" }
+    { cache: "force-cache" }
+    // 강제 캐시
   );
   // 리퀘스트 메모이제이션의 자동 동작으로, book 호출은 한 번만 실행됨
   // home 화면에 '등록된 모든 도서' 페이지에서도 호출되었지만 한 번 실행되어 메모이제이션 된 것

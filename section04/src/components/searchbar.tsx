@@ -6,8 +6,11 @@ import style from "./serachbar.module.css";
 
 export default function Searchbar() {
   const router = useRouter();
+
+  // 빌드 타임에는 쿼리스트링이 존재하지 않아서 npm run build 시 오류 발생
   const searchParams = useSearchParams();
   // 현재 페이지 쿼리스트링 가져오는 hooks (router.query.q 이거 안됨)
+
   const [search, setSearch] = useState("");
 
   const q = searchParams.get("q");
