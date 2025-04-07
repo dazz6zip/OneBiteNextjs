@@ -4,7 +4,7 @@ import { BookData } from "@/types";
 
 // cache 옵션은 fetch 만 가능 (axios 안 됨)
 
-// 리퀘스트 메모이제이션 : 같은 api 로드에만 사용하기 위함
+// 리퀘스트 메모이제이션 : 같은 api 로드에만 사용하기 위함 (fetch 끝나면 소멸)
 //  ㄴ 서버 컴포넌트 도입으로 각각 페이지가 fetch 하는 방식으로 변함 (원래는 최상단에서 fetch, 이후 전달)
 //  ㄴ 서로 다른 컴포넌트에서 같은 데이터를 필요로 하는 경우 사용!!
 // 리퀘스트 메모이제이션과 데이터 캐시는 전혀 다른 것
@@ -71,3 +71,34 @@ export default function Home() {
     </div>
   );
 }
+
+/* 
+풀 라우트 캐시
+-> 리벨리데이트, 주기적 페이지 재생성 가능함
+-> STALE (상함) 페이지 반환 이후 revalidate data 로드
+-> 이후 요청부터는 업데이트된 페이지 반환됨
+
+Dynamic page
+- 특정 페이지가 접속 요청을 받을 때마다 매번 변화가 생기거나 데이터가 달라질 경우
+- 서버 컴포넌트에서 cache 옵션이 없거나 no-store 일 경우 다이나믹 페이지가 됨 (매번 불러와야 해서)
+- 서버 컴포넌트에서 동적 함수 사용할 경우 (쿠키, 헤더, 쿼리스트링에서 값 꺼내오기)
+
+Static Page
+- Dynamic page 에 해당하지 않으면 전부 static page
+
+동적 함수     데이터 캐시     페이지 분류
+YES         NO           Dynamic Page
+YES         YES          Dynamic Page
+NO          NO           Dynamic Page
+NO          YES          Static Page
+
+
+-> Static page 의 경우 풀 라우트 캐시가 적용됨
+-> 빌드 타임에 미리 페이지 렌더링 후 캐싱
+-> 이후 요청 들어오면 풀 라우트 캐시에 저장된 페이지 반환!!
+
+-> Dynamic page 의 경우 빌드 때 생성이 안 됨 
+-> 경로 접근시마다 fetch 해야 함 (비교적 느림)
+-> 리퀘스트 메모이제이션이나 데이터 캐시는 정상 작동!! 풀 라우트 캐시만 해당 안 되는 것
+-> 되도록이면 대부분의 페이지를 Static page 로 구현하는 것이 권장됨
+*/
