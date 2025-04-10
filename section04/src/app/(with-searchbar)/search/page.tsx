@@ -1,6 +1,12 @@
 import BookItem from "@/components/book-item";
 import { BookData } from "@/types";
 
+// export const dynamic = "force-static";
+// 무조건 static
+// 동적 함수는 무조건 빈값 반환으로 설정됨 (알아서 변경)
+// 쿼리스트링에 의존하고 있는 페이지일 경우 검색 기능이 제대로 동작하지 않을 수 있음
+// cache 설정도 바뀜
+
 export default async function Page({
   searchParams,
 }: {

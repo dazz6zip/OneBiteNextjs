@@ -9,6 +9,17 @@ import { BookData } from "@/types";
 //  ㄴ 서로 다른 컴포넌트에서 같은 데이터를 필요로 하는 경우 사용!!
 // 리퀘스트 메모이제이션과 데이터 캐시는 전혀 다른 것
 
+/* 사실 dynamic 이 권장되지는 않음!! */
+// -> 매커니즘을 무시하고 강제 설정하는 것이 부작용 확률 있음
+// -> 그렇지만 사용해야만 할 경우가 있으므로 상황 판단 필요~
+
+// export const dynamic = "force-dynamic";
+// 특정 페이지의 유형을 강제로 static, dynamic 페이지로 설정
+// 1. auto : 기본값, 아무것도 강제하지 않음 (원칙적)
+// 2. force-dynamic : 페이지를 강제로 Dynamic 으로 설정
+// 3. force-static : 페이지를 강제로 Static 으로 설정
+// 4. error : 페이지를 강제로 static 페이지 설정 (설정하면 안 되는 케이스일 경우 오류 발생)
+
 async function AllBooks() {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book`,
