@@ -1,6 +1,12 @@
 .container {
   display: flex;
   flex-direction: column;
+  gap: 50px;
+}
+
+.container > section {
+  display: flex;
+  flex-direction: column; /* 수직 배치 */
   gap: 10px;
 }
 

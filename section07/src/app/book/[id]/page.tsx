@@ -5,13 +5,9 @@ export function generateStaticParams() {
   return [{ id: "1" }, { id: "2" }, { id: "3" }];
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string | string[] }>;
-}) {
+async function BookDetail({ bookId }: { bookId: string }) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${(await params).id}`
+    `${process.env.NEXT_PUBLIC_API_SERVER_URL}/book/${bookId}`
   );
 
   if (!response.ok) {
@@ -26,7 +22,7 @@ export default async function Page({
     book;
 
   return (
-    <div className={style.container}>
+    <section>
       <div
         className={style.cover_img_container}
         style={{ backgroundImage: `url('${coverImgUrl}')` }}
@@ -39,6 +35,39 @@ export default async function Page({
         {author} | {publisher}
       </div>
       <div className={style.description}>{description}</div>
+    </section>
+  );
+}
+
+function ReviewEditor() {
+  async function createReviewAction(formData: FormData) {
+    "use server";
+    // 서버 액션으로 설정됨 (브라우저에서 호출 가능한 서버에서만 실행되는 함수)
+
+    const content = formData.get("content")?.toString;
+    const author = formData.get("author")?.toString;
+    // string 일 경우 ?.toString
+  }
+  return (
+    <section>
+      <form action={createReviewAction}>
+        <input name="content" placeholder="리뷰 내용" />
+        <input name="author" placeholder="작성자" />
+        <button type="submit">작성하기</button>
+      </form>
+    </section>
+  );
+}
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  return (
+    <div className={style.container}>
+      <BookDetail bookId={(await params).id} />
+      <ReviewEditor />
     </div>
   );
 }
