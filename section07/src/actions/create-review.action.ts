@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 // 서버 액션으로 설정됨 (브라우저에서 호출 가능한 서버에서만 실행되는 함수)
 
@@ -26,9 +26,23 @@ export async function createReviewAction(formData: FormData) {
       }
     );
     console.log(response.status);
-    revalidatePath(`/book/${bookId}`);
-    // 경로에 해당하는 페이지 자동 재검증 (재생성)
-    // 주의사항
+
+    // 1. 특정 주소의 해당하는 페이지만 재검증
+    // revalidatePath(`/book/${bookId}`);
+
+    // 2. 특정 경로의 모든 동적 페이지를 재검증
+    // revalidatePath(`/book/[id]`, "page");
+
+    // 3. 특정 레이아웃을 갖는 모든 페이지 재검증
+    // revalidatePath(`/(with-searchbar)`, "layout");
+
+    // 4. 모든 데이터 재검증
+    // revalidatePath(`/`, "layout");
+
+    // 5. 태그 값을 기준으로 데이터 캐시 재검증 (fetch 시 tag 지정 가능)
+    revalidateTag(`review-${bookId}`);
+
+    // revalidatePath 주의사항
     // 1. 서버에서만 호출할 수 있는 메소드
     // 2. 페이지를 전부 재검증하기 때문에 포함된 캐시 무효화됨
     // fetch cache 옵션을 force-cache 로 설정되어 있다고 하더라도 무효화
