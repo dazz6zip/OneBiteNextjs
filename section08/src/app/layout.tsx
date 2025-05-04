@@ -2,6 +2,7 @@ import "./globals.css";
 import Link from "next/link";
 import style from "./layout.module.css";
 import { BookData } from "@/types";
+import { ReactNode } from "react";
 
 async function Footer() {
   const response = await fetch(
@@ -24,8 +25,10 @@ async function Footer() {
 
 export default function RootLayout({
   children,
+  modal, // modal 슬롯 안에 있는 default (null이기 때문에 children 출력될 것)
 }: Readonly<{
   children: React.ReactNode;
+  modal: ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -37,7 +40,8 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </div>
-        {/* 모달 출력을 위한 div */}
+        {/* 병렬 렌더링 설정 */}
+        {modal}
         <div id="modal-root"></div>
       </body>
     </html>
