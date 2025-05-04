@@ -37,6 +37,8 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </div>
+        {/* 모달 출력을 위한 div */}
+        <div id="modal-root"></div>
       </body>
     </html>
   );
