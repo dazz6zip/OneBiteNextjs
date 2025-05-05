@@ -2,6 +2,7 @@ import BookItem from "@/components/book-item";
 import BookListSkeleton from "@/components/skeleton/book-list-skeleton";
 import { BookData } from "@/types";
 import { delay } from "@/util/delay";
+import { Metadata } from "next";
 import { Suspense } from "react";
 
 async function SearchResult({ q }: { q: string }) {
@@ -24,6 +25,29 @@ async function SearchResult({ q }: { q: string }) {
       ))}
     </div>
   );
+}
+
+// 검색어를 props로 불러와야 하기 때문에 const metadata 사용 불가
+// generateMetadata는 page가 전달받는 props 사용 가능
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    q?: string;
+  }>;
+}): Promise<Metadata> {
+  // 비동기적으로 metadata 반환
+
+  const { q } = await searchParams;
+
+  return {
+    title: `${q} : 한입북스 검색`,
+    description: `${q}의 검색 결과입니다`,
+    openGraph: {
+      title: `${q} : 한입북스 검색`,
+      description: `${q}의 검색 결과입니다`,
+    },
+  };
 }
 
 export default async function Page({
